@@ -2,7 +2,7 @@ import sys
 import os
 import numpy as np
 
-def heuristica(localizacao_r, lista_de_localizacoes,distancia,caminho,dronometros_sum, penultimo_ponto):
+def busca_gulosa(localizacao_r, lista_de_localizacoes,distancia,caminho,dronometros_sum, penultimo_ponto):
     if len(lista_de_localizacoes) <= 2:
         distanciax = abs(localizacao_r[1] - lista_de_localizacoes[1][1])
         distanciay = abs(localizacao_r[2] - lista_de_localizacoes[1][2])
@@ -24,17 +24,17 @@ def heuristica(localizacao_r, lista_de_localizacoes,distancia,caminho,dronometro
             if distancia_sum < distancia:
                 maioridx = i
                 distancia_nova = 0
-                lista_heuristica = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
+                lista_gulosa = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
                 dronometros_sum = dronometros_sum + distancia
-                return heuristica(localizacao_r, lista_heuristica,distancia_nova,caminho, dronometros_sum, lista_de_localizacoes[maioridx])
+                return busca_gulosa(localizacao_r, lista_gulosa,distancia_nova,caminho, dronometros_sum, lista_de_localizacoes[maioridx])
             else:
                 distancia_nova = 0
                 caminho = caminho + lista_de_localizacoes[maioridx][0]
                 lista_de_localizacoes[0] = lista_de_localizacoes[maioridx]
                 dronometros_sum = dronometros_sum + distancia
-                lista_heuristica = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
+                lista_gulosa = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
 
-                return heuristica(localizacao_r, lista_heuristica,distancia_nova,caminho, dronometros_sum,lista_de_localizacoes[maioridx])
+                return busca_gulosa(localizacao_r, lista_gulosa,distancia_nova,caminho, dronometros_sum,lista_de_localizacoes[maioridx])
         else:
             if distancia_sum < distancia:
                 distancia = distancia_sum
@@ -80,7 +80,7 @@ for lugar in alfabeto_sem_R[:(pontos)]:
     localizacao_linha, localizacao_coluna = np.where(matriz == lugar)
     lista_de_localizacoes.append([lugar, localizacao_linha, localizacao_coluna])
 
-print(heuristica(localizacao_r, lista_de_localizacoes, 0 , '', 0, []))
+print(busca_gulosa(localizacao_r, lista_de_localizacoes, 0 , '', 0, []))
 
 
 
