@@ -3,48 +3,141 @@ import os
 import numpy as np
 
 '''
-Inicialmente utilizei a função  de busca gulosa para resolver o problema, apesar de ser uma solução rápida ela é sub-otima.
-A função mais eficiente para a gente implementar seria a função de busca A* que eu vou implementar no meu proximo commit.
+Nesse comit implementei uma função que corresponde a busca A* para obter a rota mais curta para o drone realizar seu objetivo.
+Fazendo com que esse script seja uma versão apresentavel do projeto, eu uso o termo apresentavel, pois a função que implementei funciona como uma busca A* porém.
+provavelmente como o codigo foi escrito manualmente, deve existir alguma forma de escreve-lo de uma forma mais limpa e mais eficiente, mas o código funciona e
+entrega o resultado esperado.
 '''
 
-def busca_gulosa(localizacao_r, lista_de_localizacoes,distancia,caminho,dronometros_sum, penultimo_ponto):
-    if len(lista_de_localizacoes) <= 2:
-        distanciax = abs(localizacao_r[1] - lista_de_localizacoes[1][1])
-        distanciay = abs(localizacao_r[2] - lista_de_localizacoes[1][2])
-        distanciax2 = abs(lista_de_localizacoes[1][1] - penultimo_ponto[1])
-        distanciay2 = abs(lista_de_localizacoes[1][2] - penultimo_ponto[2])
-        distancia_sum = distanciax + distanciay + distanciax2 + distanciay2
-        dronometros_sum = dronometros_sum + distancia_sum 
-        caminho = caminho + lista_de_localizacoes[1][0]
-        return caminho, int(dronometros_sum[0])
-    for i in range(1, len(lista_de_localizacoes)):
-        distanciax = abs(lista_de_localizacoes[0][1] - lista_de_localizacoes[i][1])
-        distanciay = abs(lista_de_localizacoes[0][2] - lista_de_localizacoes[i][2])
-        distancia_sum = distanciax + distanciay
-        if i == 1:
-            distancia = distancia_sum
-            maioridx = 1
-            continue
-        if i == (len(lista_de_localizacoes)-1):
-            if distancia_sum < distancia:
-                maioridx = i
-                distancia_nova = 0
-                lista_gulosa = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
-                dronometros_sum = dronometros_sum + distancia
-                return busca_gulosa(localizacao_r, lista_gulosa,distancia_nova,caminho, dronometros_sum, lista_de_localizacoes[maioridx])
-            else:
-                distancia_nova = 0
-                caminho = caminho + lista_de_localizacoes[maioridx][0]
-                lista_de_localizacoes[0] = lista_de_localizacoes[maioridx]
-                dronometros_sum = dronometros_sum + distancia
-                lista_gulosa = lista_de_localizacoes[:maioridx] + lista_de_localizacoes[maioridx+1:]
+"""
+Antes de explicar as funções menores vou fornecer uma explicação geral da busca A*:
 
-                return busca_gulosa(localizacao_r, lista_gulosa,distancia_nova,caminho, dronometros_sum,lista_de_localizacoes[maioridx])
-        else:
-            if distancia_sum < distancia:
-                distancia = distancia_sum
-                maioridx = i
+O A* é um algoritmo de busca em grafos que encontra a rota de menor custo 
+entre um estado inicial e um estado objetivo. Ele é amplamente utilizado em 
+Inteligência Artificial por ser completo e ótimo (garante encontrar a melhor 
+solução possível).
+
+Lógica de Funcionamento:
+A cada passo, o algoritmo decide qual caminho seguir avaliando a função: 
+f(n) = g(n) + h(n)
+
+Onde:
+- g(n): É o custo real exato do ponto de partida até a posição atual (dronômetros gastos).
+- h(n): É a função heurística, uma estimativa do custo do nó atual até o objetivo final.
+
+Aplicação no Projeto (Problema do Caixeiro Viajante):
+Para que o A* funcione perfeitamente ao visitar múltiplos pontos e retornar à 
+base ('R'), a heurística h(n) nunca pode superestimar o custo real. 
+Por isso, utilizamos o cálculo da Árvore Geradora Mínima (MST) das sub-redes 
+não visitadas. A MST(Árvore Geradora Mínima) fornece uma estimativa otimista e matematicamente segura 
+que guia o algoritmo para descartar rotas ruins e focar diretamente no percurso 
+mais eficiente.
+
+
+"""
+
+'''
+A função passo_sub_rede calculo o custo estimado da sub-rede, composta de todos os pontos que ainda não foram visitados,
+tirando o ponto que está sendo analisado e o ponto em que estamos no momento.
+
+Ela funciona recebendo a lista de pontos não visitados, uma cópia da lista para iterar sobre, uma lista pra guardar uma lista contendo o menor custo encontrado
+e o ponto em que ele foi encontrado, o ponto que estamos no momento do loop e o custo final que vai sendo atualizado até o fim do loop, onde ele retorna o custo final da sub-rede.
+
+'''
+
+def passo_sub_rede(lista_nao_visitados, nao_visitados_iteraveis, menor_custo, local_atual, custo_final):
+    if len(lista_nao_visitados) <= 1:
+        return custo_final
+    if len(nao_visitados_iteraveis) <= 1:
+        for idx, x in enumerate(lista_nao_visitados):
+            if x[0] == menor_custo[1]:
+                local_atual = x
+        for idx, x in enumerate(lista_nao_visitados):
+            if x[0] == menor_custo[0]:
+                del lista_nao_visitados[idx]
+                break
+        custo_final = custo_final + menor_custo[2]
+        return passo_sub_rede(lista_nao_visitados, lista_nao_visitados[:], [], local_atual, custo_final)
+    else:
+        for x in nao_visitados_iteraveis:
+            if x == nao_visitados_iteraveis[0]:
+                continue
+            carga = abs(nao_visitados_iteraveis[0][1] - x[1]) + abs(nao_visitados_iteraveis[0][2] - x[2])
+            if menor_custo == []:
+                menor_custo = [nao_visitados_iteraveis[0][0], x[0], carga]
+            elif carga < menor_custo[2]:
+                menor_custo = [nao_visitados_iteraveis[0][0], x[0], carga]
+        del nao_visitados_iteraveis[0]
+        return passo_sub_rede(lista_nao_visitados, nao_visitados_iteraveis, menor_custo, [], custo_final)
+
+'''
+A função passo2 calcula o custo estimado para ir do ponto atual para o ponto mais próximo entre a sub-rede de pontos que ainda não foram visitados.
+
+'''
+
+def passo2(localizacao_atual, nao_visitados):
+    if len(nao_visitados) == 0:
+        return 0    
+    lista_para_comp = []
+    for x in nao_visitados:
+        distancia_sum = [x[0], abs(localizacao_atual[1] - x[1]) + abs(localizacao_atual[2] - x[2])]
+        lista_para_comp.append(distancia_sum)
+    lista_para_comp.sort(key=lambda x: x[1])
+    return lista_para_comp[0][1]
+
+'''
+A função passo3 calcula o custo estimado para ir do ponto mais próximo da sub-rede de pontos não visitados para o ponto de inicio 'R'.
+'''
+
+def passo3(local_r, nao_visitados):
+    if len(nao_visitados) == 0:
+        return 0
+    lista_para_comp = []
+    for x in nao_visitados:
+        distancia_sum = [x[0], abs(local_r[1] - x[1]) + abs(local_r[2] - x[2])]
+        lista_para_comp.append(distancia_sum)
+    lista_para_comp.sort(key=lambda x: x[1])
+    return lista_para_comp[0][1]
+
+'''
+Dentro da busca_estrela, cada ponto da lista de localizações é avaliado para encontrar o custo total de visitar aquele ponto, que é a soma do custo real e o custo estimado(que em si é a soma
+do custo da sub-rede, passo2 e passo3, funções executadas em cada ponto não visitado). O ponto com menor custo total é escolhido como o próximo a ser visitado,
+a função é chamada de forma recursiva até que a lista de localizações fique vazia, e o custo final (custo para voltar a 'R') seja adiciona ao custo total, permitindo o retorno 
+da string com a ordem dos pontos visitados e o custo total gasto no caminho.
+'''
+
+def busca_estrela(localizacao_atual, lista_de_localizacoes, dronometros, caminho, local_r):
+    if len(lista_de_localizacoes) == 0:
+        dronometros = dronometros + abs(localizacao_atual[1] - local_r[1]) + abs(localizacao_atual[2] - local_r[2])
+        return caminho, int(dronometros[0])
+        
+    lista_para_comp = []
+    for l1 in lista_de_localizacoes:
+        carga_real = abs(localizacao_atual[1] - l1[1]) + abs(localizacao_atual[2] - l1[2]) + dronometros
+        nao_visitados = lista_de_localizacoes[:] 
+        for idx, x in enumerate(nao_visitados):
+            if x == l1:
+                del nao_visitados[idx]
+                break
+
+        custo_estimado_sub_rede = passo_sub_rede(nao_visitados[:], nao_visitados[:], [], '',  0) 
+        custo_estimado_passo2 = passo2(localizacao_atual, nao_visitados)
+        custo_estimado_passo3 = passo3(local_r, nao_visitados)
+        
+        carga_total = custo_estimado_sub_rede + custo_estimado_passo2 + custo_estimado_passo3 + carga_real
+        lista_para_comp.append([l1, carga_total, carga_real])
+        
+    lista_para_comp.sort(key=lambda x: x[1])
+    localizacao_atual = lista_para_comp[0][0]
+    caminho = caminho + lista_para_comp[0][0][0]
     
+    for idx, x in enumerate(lista_de_localizacoes):
+        if x == localizacao_atual:
+            del lista_de_localizacoes[idx] 
+            break
+            
+    dronometros = lista_para_comp[0][2]
+    return busca_estrela(localizacao_atual, lista_de_localizacoes, dronometros, caminho, local_r)
 
 '''
 O código abaixo cria um loop onde ele pede ao usuário para inserir o nome do arquivo que contém a matriz.
@@ -94,19 +187,9 @@ alfabeto_sem_R = list("ABCDEFGHIJKLMNOPQSTUVWXYZ")
 lista_de_localizacoes = []
 linha_r , coluna_r = np.where(matriz == 'R')
 localizacao_r = ['R', linha_r, coluna_r]
-lista_de_localizacoes.append(['R', linha_r, coluna_r])
 for lugar in alfabeto_sem_R[:(pontos)]:
     localizacao_linha, localizacao_coluna = np.where(matriz == lugar)
     lista_de_localizacoes.append([lugar, localizacao_linha, localizacao_coluna])
 
 #Teste da busca_gulosa com o arquivo mapa.txt
-
-print(busca_gulosa(localizacao_r, lista_de_localizacoes, 0 , '', 0, []))
-
-
-
-
-
-        
-
-    
+print(busca_estrela(localizacao_r, lista_de_localizacoes, 0 , '', localizacao_r))
