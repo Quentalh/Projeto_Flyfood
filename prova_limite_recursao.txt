@@ -1,0 +1,187 @@
+--- BENCHMARK: TESTE DE ESTOURO DE PILHA (RECURSION LIMIT) ---
+Objetivo: Provar o limite da função 'passo_sub_rede' no nível 46.
+
+Nível 1 | Entregas: 1
+Resultado: ('P1', 18)
+Tempo: 0.1681 segundos
+------------------------------------------------------------
+Nível 2 | Entregas: 2
+Resultado: ('P1P2', 30)
+Tempo: 0.0657 segundos
+------------------------------------------------------------
+Nível 3 | Entregas: 3
+Resultado: ('P1P3P2', 48)
+Tempo: 0.0931 segundos
+------------------------------------------------------------
+Nível 4 | Entregas: 4
+Resultado: ('P1P3P4P2', 52)
+Tempo: 0.0714 segundos
+------------------------------------------------------------
+Nível 5 | Entregas: 5
+Resultado: ('P1P3P5P4P2', 54)
+Tempo: 0.0687 segundos
+------------------------------------------------------------
+Nível 6 | Entregas: 6
+Resultado: ('P2P4P5P6P3P1', 54)
+Tempo: 0.0756 segundos
+------------------------------------------------------------
+Nível 7 | Entregas: 7
+Resultado: ('P2P4P5P6P3P7P1', 54)
+Tempo: 0.0729 segundos
+------------------------------------------------------------
+Nível 8 | Entregas: 8
+Resultado: ('P2P4P5P6P3P8P7P1', 54)
+Tempo: 0.0801 segundos
+------------------------------------------------------------
+Nível 9 | Entregas: 9
+Resultado: ('P9P2P4P5P6P3P8P7P1', 54)
+Tempo: 0.0740 segundos
+------------------------------------------------------------
+Nível 10 | Entregas: 10
+Resultado: ('P9P2P4P5P6P3P10P8P7P1', 54)
+Tempo: 0.0938 segundos
+------------------------------------------------------------
+Nível 11 | Entregas: 11
+Resultado: ('P7P8P10P3P6P5P4P2P9P11P1', 58)
+Tempo: 0.1057 segundos
+------------------------------------------------------------
+Nível 12 | Entregas: 12
+Resultado: ('P7P8P10P3P6P5P4P2P9P11P1P12', 58)
+Tempo: 0.0948 segundos
+------------------------------------------------------------
+Nível 13 | Entregas: 13
+Resultado: ('P9P2P4P5P6P3P10P8P7P12P1P11P13', 60)
+Tempo: 0.1653 segundos
+------------------------------------------------------------
+Nível 14 | Entregas: 14
+Resultado: ('P14P7P12P1P11P9P2P4P5P6P3P10P8P13', 64)
+Tempo: 0.1674 segundos
+------------------------------------------------------------
+Nível 15 | Entregas: 15
+Resultado: ('P13P14P7P8P15P10P3P6P5P4P2P9P11P1P12', 64)
+Tempo: 0.1979 segundos
+------------------------------------------------------------
+Nível 16 | Entregas: 16
+Resultado: ('P13P14P7P8P15P10P3P6P5P4P2P9P11P1P12P16', 66)
+Tempo: 0.5325 segundos
+------------------------------------------------------------
+Nível 17 | Entregas: 17
+Resultado: ('P15P8P10P17P3P14P7P12P1P11P16P9P2P4P5P6P13', 70)
+Tempo: 0.2906 segundos
+------------------------------------------------------------
+Nível 18 | Entregas: 18
+Resultado: ('P13P7P8P15P10P17P3P14P12P1P11P16P9P2P4P5P18P6', 70)
+Tempo: 0.2020 segundos
+------------------------------------------------------------
+Nível 19 | Entregas: 19
+Resultado: ('P13P7P8P15P10P17P3P18P5P4P2P9P19P11P1P12P14P6P16', 88)
+Tempo: 0.2328 segundos
+------------------------------------------------------------
+Nível 20 | Entregas: 20
+Resultado: ('P13P7P8P15P10P17P3P6P18P5P4P2P9P19P20P11P1P12P14P16', 78)
+Tempo: 0.2870 segundos
+------------------------------------------------------------
+Nível 21 | Entregas: 21
+Resultado: ('P13P14P17P3P10P15P8P7P6P18P5P21P4P2P9P19P20P11P1P12P16', 78)
+Tempo: 0.3648 segundos
+------------------------------------------------------------
+Nível 22 | Entregas: 22
+Resultado: ('P13P7P8P15P10P17P3P6P18P5P21P4P2P9P14P12P1P11P20P19P22P16', 80)
+Tempo: 0.3923 segundos
+------------------------------------------------------------
+Nível 23 | Entregas: 23
+Resultado: ('P13P7P8P15P10P17P3P6P18P5P21P4P19P20P11P1P12P14P2P9P22P16P23', 80)
+Tempo: 0.4763 segundos
+------------------------------------------------------------
+Nível 24 | Entregas: 24
+Resultado: ('P13P7P8P15P10P17P3P6P18P5P21P4P2P9P22P16P12P1P11P20P24P19P23P14', 84)
+Tempo: 0.5449 segundos
+------------------------------------------------------------
+Nível 25 | Entregas: 25
+Resultado: ('P25P14P17P3P10P8P15P6P18P5P21P4P2P9P22P16P12P1P11P20P24P19P23P7P13', 90)
+Tempo: 0.6208 segundos
+------------------------------------------------------------
+Nível 26 | Entregas: 26
+Resultado: ('P13P7P8P15P10P17P3P25P14P12P1P11P20P24P19P22P16P23P9P2P26P4P21P5P18P6', 84)
+Tempo: 1.1901 segundos
+------------------------------------------------------------
+Nível 27 | Entregas: 27
+Resultado: ('P23P16P22P12P1P11P20P24P19P9P2P26P4P21P5P18P6P15P8P10P17P3P25P14P27P7P13', 80)
+Tempo: 4.4509 segundos
+------------------------------------------------------------
+Nível 28 | Entregas: 28
+Resultado: ('P13P15P28P3P17P10P8P7P12P1P11P20P24P19P22P16P23P9P2P26P4P21P18P5P6P27P14P25', 94)
+Tempo: 1.1637 segundos
+------------------------------------------------------------
+Nível 29 | Entregas: 29
+Resultado: ('P13P7P8P15P6P18P5P29P21P4P28P3P17P10P27P25P14P12P1P11P20P24P19P26P2P9P22P16P23', 90)
+Tempo: 2.2779 segundos
+------------------------------------------------------------
+Nível 30 | Entregas: 30
+Resultado: ('P29P5P18P6P15P8P7P12P1P11P20P24P19P22P16P23P9P2P26P4P21P10P30P17P28P3P25P14P27P13', 102)
+Tempo: 2.4031 segundos
+------------------------------------------------------------
+Nível 31 | Entregas: 31
+Resultado: ('P13P29P5P18P21P4P26P2P9P22P16P23P11P20P24P19P1P12P31P25P14P27P30P17P3P28P6P15P10P8P7', 98)
+Tempo: 2.1360 segundos
+------------------------------------------------------------
+Nível 32 | Entregas: 32
+Resultado: ('P31P12P1P11P20P24P19P32P26P2P9P22P16P23P13P6P18P5P29P21P4P15P10P30P17P28P3P25P14P27P8P7', 98)
+Tempo: 2.2151 segundos
+------------------------------------------------------------
+Nível 33 | Entregas: 33
+Resultado: ('P13P23P16P22P9P2P26P32P4P21P5P18P29P6P3P28P17P30P10P15P8P7P14P27P25P31P12P1P11P20P24P19P33', 92)
+Tempo: 2.6349 segundos
+------------------------------------------------------------
+Nível 34 | Entregas: 34
+Resultado: ('P13P23P16P22P9P2P26P32P4P21P29P5P18P34P6P3P28P17P30P10P15P8P7P14P27P25P31P12P1P11P20P24P19P33', 92)
+Tempo: 2.9211 segundos
+------------------------------------------------------------
+Nível 35 | Entregas: 35
+Resultado: ('P13P23P16P22P9P2P26P32P35P4P21P29P5P18P34P6P3P28P17P30P10P15P8P7P14P27P25P31P12P1P11P20P24P19P33', 94)
+Tempo: 2.9595 segundos
+------------------------------------------------------------
+Nível 36 | Entregas: 36
+Resultado: ('P13P36P34P5P18P29P21P4P32P35P26P2P9P23P16P22P11P20P24P19P33P1P12P31P25P14P27P30P17P3P28P6P15P10P8P7', 96)
+Tempo: 4.2314 segundos
+------------------------------------------------------------
+Nível 37 | Entregas: 37
+Resultado: ('P13P23P16P22P9P2P26P35P32P37P4P21P29P5P18P34P36P6P3P28P17P30P10P15P8P7P14P27P25P31P12P1P11P20P24P19P33', 92)
+Tempo: 3.7958 segundos
+------------------------------------------------------------
+Nível 38 | Entregas: 38
+Resultado: ('P13P23P16P22P9P2P26P35P32P37P4P38P21P29P5P18P34P36P6P3P28P17P30P10P15P8P7P14P27P25P31P12P1P11P20P24P19P33', 94)
+Tempo: 4.2614 segundos
+------------------------------------------------------------
+Nível 39 | Entregas: 39
+Resultado: ('P39P25P14P27P8P15P6P36P34P18P5P29P38P21P4P37P32P35P26P2P9P23P16P22P11P20P24P19P33P1P12P31P17P3P28P30P10P7P13', 102)
+Tempo: 8.1297 segundos
+------------------------------------------------------------
+Nível 40 | Entregas: 40
+Resultado: ('P13P7P8P15P6P36P34P18P5P29P38P21P4P37P32P35P26P2P9P23P16P22P11P20P24P19P33P40P1P12P31P39P25P3P28P17P10P30P27P14', 96)
+Tempo: 6.1401 segundos
+------------------------------------------------------------
+Nível 41 | Entregas: 41
+Resultado: ('P13P7P8P15P6P36P34P18P5P29P38P21P4P37P32P35P26P2P9P23P16P22P11P20P24P19P33P40P1P12P31P41P39P25P3P28P17P10P30P27P14', 96)
+Tempo: 6.9445 segundos
+------------------------------------------------------------
+Nível 42 | Entregas: 42
+Resultado: ('P23P16P22P9P2P26P35P32P37P4P21P38P29P5P18P34P36P42P13P7P8P15P6P3P28P17P30P10P27P14P25P39P41P31P12P1P11P20P24P19P33P40', 96)
+Tempo: 10.2623 segundos
+------------------------------------------------------------
+Nível 43 | Entregas: 43
+Resultado: ('P23P16P22P9P2P26P35P32P37P4P21P38P29P5P18P34P36P6P15P8P10P30P17P28P3P25P39P41P31P12P1P11P20P24P19P33P40P42P13P7P27P14P43', 102)
+Tempo: 20.2492 segundos
+------------------------------------------------------------
+Nível 44 | Entregas: 44
+Resultado: ('P23P16P22P9P2P26P35P32P37P4P21P38P29P5P18P34P36P6P15P8P10P30P17P3P28P27P43P14P25P39P41P31P12P1P11P20P24P19P33P40P44P42P7P13', 100)
+Tempo: 19.1811 segundos
+------------------------------------------------------------
+Nível 45 | Entregas: 45
+Resultado: ('P44P16P22P23P9P2P26P35P32P37P4P21P38P29P5P18P45P6P15P8P10P30P17P28P3P25P39P41P31P12P1P11P20P24P19P33P40P13P7P14P43P27P34P36P42', 116)
+Tempo: 55.9866 segundos
+------------------------------------------------------------
+Nível 46 | Entregas: 46
+Resultado: CRASH DETECTADO: RecursionError: maximum recursion depth exceeded in comparison
+Tempo: 0.1243 segundos
+------------------------------------------------------------
