@@ -1,4 +1,7 @@
 import sys
+sys.setrecursionlimit(25000)
+
+import sys
 import os
 import numpy as np
 
@@ -195,7 +198,7 @@ Além disso a lista com a localização de R é definida antes do loop para que 
 '''
 
 # Cria uma lista com 100 identificadores: ['P1', 'P2', 'P3' ... 'P100']
-alfabeto_sem_R = [f"P{i}" for i in range(1, 101)]
+alfabeto_sem_R = [f"P{i}" for i in range(1, 201)]
 lista_de_localizacoes = []
 linha_r , coluna_r = np.where(matriz == 'R')
 localizacao_r = ['R', linha_r, coluna_r]

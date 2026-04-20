@@ -1,3 +1,4 @@
+
 import sys
 import os
 import numpy as np
@@ -196,11 +197,11 @@ Além disso a lista com a localização de R é definida antes do loop para que 
 
 alfabeto_sem_R = list("ABCDEFGHIJKLMNOPQSTUVWXYZ")
 lista_de_localizacoes = []
-linha_r , coluna_r = np.where(matriz == 'R')
-localizacao_r = ['R', linha_r, coluna_r]
+linha_r, coluna_r = np.where(matriz == 'R')
+localizacao_r = ['R', int(linha_r[0]), int(coluna_r[0])]
+
 for lugar in alfabeto_sem_R[:(pontos)]:
     localizacao_linha, localizacao_coluna = np.where(matriz == lugar)
-    lista_de_localizacoes.append([lugar, localizacao_linha, localizacao_coluna])
+    lista_de_localizacoes.append([lugar, int(localizacao_linha[0]), int(localizacao_coluna[0])])
 
-#Teste da busca_gulosa com o arquivo mapa.txt
 print(busca_estrela(localizacao_r, lista_de_localizacoes, 0 , '', localizacao_r))
