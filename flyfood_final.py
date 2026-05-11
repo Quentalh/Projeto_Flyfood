@@ -2,6 +2,7 @@
 import sys
 import os
 import numpy as np
+import heapq 
 
 '''
 Nesse comit implementei uma função que corresponde a busca A* para obter a rota mais curta para o drone realizar seu objetivo.
@@ -116,20 +117,25 @@ caminhos simulados e sempre escolhe explorar aquele que tem a menor nota F total
 Isso permite que ele "volte no tempo" e tente rotas alternativas caso o caminho 
 atual comece a ficar muito caro, garantindo a solução 100% ótima no final.
 '''
-def busca_estrela(localizacao_inicial, lista_de_localizacoes, dronometros_iniciais, caminho_inicial, local_r):
 
+
+def busca_estrela(localizacao_inicial, lista_de_localizacoes, dronometros_iniciais, caminho_inicial, local_r):
     fronteira = []
 
-    fronteira.append([0, 0, localizacao_inicial, '', lista_de_localizacoes[:]])
+    # 1. Inserimos na Fila de Prioridade usando heappush
+    estado_inicial = [0, 0, localizacao_inicial, '', lista_de_localizacoes[:]]
+    heapq.heappush(fronteira, estado_inicial)
     
     while len(fronteira) > 0:
         
-        fronteira.sort(key=lambda x: x[0])
-        estado_atual = fronteira.pop(0)
+        # 2. Extraímos o estado mais barato diretamente (sem usar sort!)
+        estado_atual = heapq.heappop(fronteira)
+        
         custo_real = estado_atual[1]
         local_atual = estado_atual[2]
         caminho_atual = estado_atual[3]
         nao_visitados = estado_atual[4]
+        
         if len(nao_visitados) == 0:
             custo_final = custo_real + abs(local_atual[1] - local_r[1]) + abs(local_atual[2] - local_r[2])
             return caminho_atual, int(custo_final)
@@ -138,6 +144,7 @@ def busca_estrela(localizacao_inicial, lista_de_localizacoes, dronometros_inicia
             custo_passo = abs(local_atual[1] - l1[1]) + abs(local_atual[2] - l1[2])
             novo_custo_real = custo_real + custo_passo
             novo_caminho = caminho_atual + l1[0]
+            
             novos_nao_visitados = nao_visitados[:]
             for idx, x in enumerate(novos_nao_visitados):
                 if x == l1:
@@ -147,9 +154,13 @@ def busca_estrela(localizacao_inicial, lista_de_localizacoes, dronometros_inicia
             h_sub_rede = passo_sub_rede(novos_nao_visitados[:], novos_nao_visitados[:], [], '', 0)
             h_passo2 = passo2(l1, novos_nao_visitados)
             h_passo3 = passo3(local_r, novos_nao_visitados)
+            
             custo_imaginario_estimado = h_sub_rede + h_passo2 + h_passo3
             custo_total_estimado = novo_custo_real + custo_imaginario_estimado
-            fronteira.append([custo_total_estimado, novo_custo_real, l1, novo_caminho, novos_nao_visitados])
+            
+            # 3. Inserimos as novas opções diretamente na Fila de Prioridade
+            novo_estado = [custo_total_estimado, novo_custo_real, l1, novo_caminho, novos_nao_visitados]
+            heapq.heappush(fronteira, novo_estado)
 
 '''
 O código abaixo cria um loop onde ele pede ao usuário para inserir o nome do arquivo que contém a matriz.
